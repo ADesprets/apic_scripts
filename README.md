@@ -73,19 +73,20 @@ The most useful commands are:
 # Scope and use cases
 The use case are driven by the various roles included in API Connect. For more information, see : [API Connect user roles](https://www.ibm.com/support/knowledgecenter/SSMNED_5.0.0/com.ibm.apic.overview.doc/overview_apimgmt_users.html)
 
-| Scope            | Role name                    | | Scope            | Role name                    |
-| ---------------- |:----------------------------:| | ---------------- |:----------------------------:|
-| Cloud Manager    | Cloud Owner                  | | API Manager      | Owner                        |
-| Cloud Manager    | Cloud Administrator          | | API Manager      | Administrator                |
-| Cloud Manager    | Organization Manager         | | API Manager      | Product Manager              |
-| Cloud Manager    | Topology Administrator       | | API Manager      | API Developer                |
-| Developer Portal | Developer Organization Owner | | API Manager      | Publisher                    |
-| Developer Portal | App Developer                | | | |
-| Developer Portal | Viewer                       | | | |
+
+| Scope            | Role name                    | - | Scope            | Role name                    |
+| ---------------- |:----------------------------:| - | ---------------- |:----------------------------:|
+| Cloud Manager    | Cloud Owner                  | - | API Manager      | Owner                        |
+| Cloud Manager    | Cloud Administrator          | - | API Manager      | Administrator                |
+| Cloud Manager    | Organization Manager         | - | API Manager      | Product Manager              |
+| Cloud Manager    | Topology Administrator       | - | API Manager      | API Developer                |
+| Developer Portal | Developer Organization Owner | - | API Manager      | Publisher                    |
+| Developer Portal | App Developer                |
+| Developer Portal | Viewer                       |
 
 More interesting for our case are the permissions associated to the roles. In the following table, I have created a table will all the permissions and associated a number from 0 to 3, 0 means not a good candidate for scripting, 3 highly candidate for scripting. *This classification is from my personal experience and is not an IBM official statement.*
 
-| Permissions	                                     | Type            | Likelyhood |
+| Permissions	                                       | Type            | Likelyhood |
 | -------------------------------------------------- |:---------------:|:----------:|
 | Manage Manager and gateway services and servers    | Infrastructure  | 1          |
 | Manage provider organizations and their owners     | Infrastructure  | 1          |
