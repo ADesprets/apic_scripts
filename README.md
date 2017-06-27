@@ -6,10 +6,10 @@ There are two aspects to operate in the context of API Connect:
 * The YAML for each API and Product and the WSDL in case of a SOAP API
 * The content of the YAML for fined grained control, for example, managing the Licences and Terms section, or managing endpoint within properties for each catalog.
 
-For the first case, mainupalitng the all yaml file, most of the work is performed using athe apic command within the toolkit.
-For the second case, we need to modify the content of the file, two appraoches here:
-* Using script to replace strings withing the yaml that are pre positionned
-* Using a YAML/Swagger parser. We will iluustrate the latest in this tutorial.
+For the first case, manipulating the all yaml file, most of the work is performed using athe apic command within the toolkit.
+For the second case, we need to modify the content of the file, two approaches here:
+* Using scripts to replace strings withing the yaml that are pre positionned
+* Using a YAML/Swagger parser. We will illustrate the latest in this tutorial.
 
 Here is the output of the appic -h command
 ```
@@ -56,7 +56,7 @@ Commandes (entrez apic COMMAND -h pour accéder à une aide supplémentaire) :
     subscriptions   gestion des abonnements
 
 ```
-The most useful commands are:
+The most useful apic commands are:
 * Login: `apic login -s management.fr.ibm -u org1owner1@fr.ibm.com -p Passw0rd!`
 * Get list of organizations: `apic organizations --server management.fr.ibm`
 * Get list of catalogs: `apic catalogs --organization org1 --server management.fr.ibm`
@@ -67,11 +67,11 @@ The most useful commands are:
 * Push an API or a product definition to draft: `apic drafts:push loansoap_2.0.0.yaml --organization org1 --server management.fr.ibm`
 * Publish a product to a catalog: `apic publish loan-product_product_1.0.0.yaml --catalog sb --organization org1 --server management.fr.ibm`
 
-**Hint**: In those samples the manager hostname is management.fr.ibm, you need to replace according your environment onPremise or local. uid and password of course need to be change with the right account.
+**Hint**: In those samples the manager hostname is management.fr.ibm, you need to replace according your environment onPremise or in the cloud. uid and password of course need to be changes with the right account as well.
 
 
 # Scope and use cases
-The use case are driven by the various roles included in API Connect. For more information, see : [API Connect user roles](https://www.ibm.com/support/knowledgecenter/SSMNED_5.0.0/com.ibm.apic.overview.doc/overview_apimgmt_users.html)
+The use cases are driven by the various roles included in API Connect. For more information, see : [API Connect user roles](https://www.ibm.com/support/knowledgecenter/SSMNED_5.0.0/com.ibm.apic.overview.doc/overview_apimgmt_users.html)
 
 
 | Scope            | Role name                    | - | Scope            | Role name                    |
@@ -84,7 +84,7 @@ The use case are driven by the various roles included in API Connect. For more i
 | Developer Portal | App Developer                |
 | Developer Portal | Viewer                       |
 
-More interesting for our case are the permissions associated to the roles. In the following table, I have created a table will all the permissions and associated a number from 0 to 3, 0 means not a good candidate for scripting, 3 highly candidate for scripting. *This classification is from my personal experience and is not an IBM official statement.*
+More interesting for our cases are the permissions associated to the roles. In the following table, I have created a table will all the permissions and associated a number from 0 to 3, 0 means not a good candidate for scripting, 3 highly candidate for scripting. *This classification is from my personal experience and is not an IBM official statement.*
 
 | Permissions	                                       | Type            | Likelyhood |
 | -------------------------------------------------- |:---------------:|:----------:|
@@ -110,3 +110,15 @@ More interesting for our case are the permissions associated to the roles. In th
 | Invite other users to join the developer orgs.     | Users/Orgs.     | 2          |
 | Create applications                                | Consumer side   | 2          |
 | Subscribe to use APIs                              | Consumer side   | 2          |
+
+# Managing the content of the Swagger file programmaticaly
+
+
+
+# Sample scripts
+The scripts are organised in two directories, one for Windows one for Unix system.
+
+The first script **TestPublish** illustrates three basic operations:
+1. List products in all catalogs
+1. Backup all products and APIs in draft
+1. Backup all catalogs
