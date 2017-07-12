@@ -8,7 +8,7 @@ There are two aspects to operate in the context of API Connect:
 
 For the first case, manipulating the all yaml file, most of the work is performed using athe apic command within the toolkit.
 For the second case, we need to modify the content of the file, two approaches here:
-* Using scripts to replace strings withing the yaml that are pre positionned
+* Using scripts to replace strings within the yaml that are pre positionned
 * Using a YAML/Swagger parser. We will illustrate the latest in this tutorial.
 
 Here is the output of the appic -h command
@@ -95,8 +95,6 @@ More interesting for our cases are the permissions associated to the roles. In t
 | Manage user registries                             | Infrastructure  | 1          |
 | Manage roles in the roles editing page             | Users/Orgs.     | 0          |
 | Manage organization users                          | Users/Orgs.     | 2          |
-| Manage SSL Identities                              | Infrastructure  | 2          |
-| Manage user registries                             | Infrastructure  | 1          |
 | Manage draft APIs                                  | APIs life cycle | 3          |
 | Manage draft Products                              | APIs life cycle | 3          |
 | Approve Plan subscriptions                         | APIs life cycle | 2          |
