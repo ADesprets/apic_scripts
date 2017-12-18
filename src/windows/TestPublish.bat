@@ -11,9 +11,15 @@ REM Usage: TestPublish.bat org1owner1@fr.ibm.com Passw0rd!
 @rem Author: Arnauld Desprets - arnauld_desprets@fr.ibm.com
 @rem Version: 1.0 - June 2017
 
+@rem Important: supports only one organisation (well put everything as if it was one organisation)
+@rem Test on Windows 7
+
+
 set APIC_LOGIN=%1
 set APIC_PASSWORD=%2
 set APIC_SRV=%3
+
+set SCRIPT_DEBUG=0
 
 echo %DATE% - %TIME%
 if [%1] == [] goto checkargs
@@ -33,7 +39,7 @@ echo Getting the names of organizations
 for /F %%i in ('apic organizations -s %APIC_SRV%') do (
     echo Getting catalogs for %%i organization
 	for /F %%j in ('apic catalogs -o %%i -s %APIC_SRV%') do (
-		REM echo catalog %%j
+		if "%SCRIPT_DEBUG%"=="1" echo catalog %%j
 		for /f "tokens=6 delims=/" %%a in ("%%j") do (
 			echo Getting list of products from %%a catalog
 			for /F %%k in ('apic products -c %%a -o %%i -s %APIC_SRV%') do (
@@ -60,7 +66,24 @@ goto end
 
 :apic_backup_catalogs
 echo Performs a backup of all catalogs
-REM TO BE DONE
+
+echo Login to %APIC_SRV%
+cmd /c apic login -s %APIC_SRV% -u %APIC_LOGIN% -p %APIC_PASSWORD%
+
+echo Getting the names of organizations
+for /F %%i in ('apic organizations -s %APIC_SRV%') do (
+    echo Getting catalogs for %%i organization
+	for /F %%j in ('apic catalogs -o %%i -s %APIC_SRV%') do (
+		@rem if "%SCRIPT_DEBUG%"=="1" echo catalog %%j
+		for /f "tokens=6 delims=/" %%a in ("%%j") do (
+			if not exist "%%a" mkdir %%a
+			pushd %%a
+			echo Extracting products from %%a catalog
+			cmd /c apic products:clone -c %%a -o %%i -s %APIC_SRV%
+			popd
+		)
+	)
+)
 goto end
 
 :checkargs
