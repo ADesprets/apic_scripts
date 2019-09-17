@@ -91,9 +91,9 @@ goto end
 :checkargs
 REM Set default arguments
 echo Info: set the arguments to the default values because no parameters have been given
-set APIC_LOGIN=org2owner1
-set APIC_PASSWORD=Mar1ea11
-set APIC_SRV=manager.159.8.70.34.xip.io
+set APIC_LOGIN=<myuser>
+set APIC_PASSWORD=<mypassw0rd>
+set APIC_SRV=<mymanagerendpoint (hostname only)>
 set APIC_REALM=provider/default-idp-2
 goto select_actions
 
