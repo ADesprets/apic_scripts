@@ -10,6 +10,8 @@ REM Usage: TestPublish.bat org1owner1@fr.ibm.com Passw0rd! manager.159.8.70.34.x
 @rem IBM Corp.
 @rem Author: Arnauld Desprets - arnauld_desprets@fr.ibm.com
 @rem Version: 1.0 - September 2019
+@rem Version: 2.0 - June 2019
+@rem Add draft products and API in the list operation
 
 @rem Important: supports only one organisation (we will put everything as if it was one organisation)
 @rem Tested on Windows 10
@@ -32,25 +34,32 @@ if errorlevel 2 goto apic_backup_drafts
 if errorlevel 1 goto apic_list
 
 :apic_list
-echo List of products and APIs in all catalogs
+echo List of products and APIs in all catalogs and in draft
 echo Login to %APIC_SRV%
 cmd /c %APIC_EXE_Full_PATH% login -s %APIC_SRV% -u %APIC_LOGIN% -p %APIC_PASSWORD% -r %APIC_REALM%
 
 echo Getting the names of organizations
 for /F %%i in ('%APIC_EXE_Full_PATH% orgs:list --my -s %APIC_SRV%') do (
+    echo Getting products and API in draft for %%i organization
+    for /F %%k in ('%APIC_EXE_Full_PATH% draft-products:list-all -o %%i -s %APIC_SRV%') do (
+      echo Product: %%k
+    )
+    for /F %%k in ('%APIC_EXE_Full_PATH% draft-apis:list-all -o %%i -s %APIC_SRV%') do (
+      echo Product: %%k
+    )
     echo Getting catalogs for %%i organization
-	for /F %%j in ('%APIC_EXE_Full_PATH% catalogs:list -o %%i -s %APIC_SRV%') do (
-		if "%SCRIPT_DEBUG%"=="1" echo catalog %%j
-		for /f %%a in ("%%j") do (
-			echo Getting list of products from %%a catalog
-			for /F %%k in ('%APIC_EXE_Full_PATH% products:list-all -c %%a -o %%i -s %APIC_SRV% --scope catalog') do (
-				echo Product: %%k
-			)
-			for /F %%k in ('%APIC_EXE_Full_PATH% apis:list-all -c %%a -o %%i -s %APIC_SRV% --scope catalog') do (
-				echo API: %%k
-			)
-		)
-	)
+  	for /F %%j in ('%APIC_EXE_Full_PATH% catalogs:list -o %%i -s %APIC_SRV%') do (
+		  if "%SCRIPT_DEBUG%"=="1" echo catalog %%j
+		    for /f %%a in ("%%j") do (
+			     echo Getting list of products and API from %%a catalog
+			     for /F %%k in ('%APIC_EXE_Full_PATH% products:list-all -c %%a -o %%i -s %APIC_SRV% --scope catalog') do (
+				       echo Product: %%k
+			     )
+			     for /F %%k in ('%APIC_EXE_Full_PATH% apis:list-all -c %%a -o %%i -s %APIC_SRV% --scope catalog') do (
+				       echo API: %%k
+			     )
+		    )
+	  )
 )
 goto end
 

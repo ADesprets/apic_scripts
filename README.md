@@ -4,14 +4,14 @@ In this repository samples of script to operate API Connect for both Windows and
 
 There are two aspects to operate in the context of API Connect:
 * The YAML for each API and Product and the WSDL in case of a SOAP API
-* The content of the YAML for fined grained control, for example, managing the Licences and Terms section, or managing endpoint within properties for each catalog.
+* The content of the YAML for fined grained control, for example, managing the Licenses and Terms section, or managing endpoint within properties for each catalog.
 
-For the first case, manipulating the all yaml file, most of the work is performed using athe apic command within the toolkit.
+For the first case, manipulating the all yaml file, most of the work is performed using the apic command within the toolkit.
 For the second case, we need to modify the content of the file, two approaches here:
-* Using scripts to replace strings within the yaml that are pre positionned
+* Using scripts to replace strings within the yaml that are pre positioned
 * Using a YAML/Swagger parser. We will illustrate the latest in this tutorial.
 
-Here is the output of the appic -h command
+Here is the output of the apic -h command for the V5 version of API Connect
 ```
 Syntaxe : OPTIONS DE COMMANDE apic
 
@@ -67,7 +67,7 @@ The most useful apic commands are:
 * Push an API or a product definition to draft: `apic drafts:push loansoap_2.0.0.yaml --organization org1 --server management.fr.ibm`
 * Publish a product to a catalog: `apic publish loan-product_product_1.0.0.yaml --catalog sb --organization org1 --server management.fr.ibm`
 
-**Hint**: In those samples the manager hostname is management.fr.ibm, you need to replace according your environment onPremise or in the cloud. uid and password of course need to be changes with the right account as well.
+**Hint**: In those samples the manager hostname is management.fr.ibm, you need to replace according your environment onPremise or in the cloud. uid and password of course need to be changed with the right account as well.
 
 
 # Scope and use cases
@@ -114,9 +114,12 @@ More interesting for our cases are the permissions associated to the roles. In t
 
 
 # Sample scripts
-The scripts are organised in two directories, one for Windows one for Unix system.
+The scripts are organized in two directories, one for Windows one for Unix system.
+And under each folder, there are two folders one for each version V5 and V2018.
 
-The first script **TestPublish** illustrates three basic operations:
-1. List products in all catalogs
+The UNIX implementations are not finalized. Please feel free to implement using Windows implementation as a sample.
+
+The first script **TestPublishVxxx** illustrates three basic operations:
+1. List products and API in all catalogs and in draft for all organisation the user is authorized.
 1. Backup all products and APIs in draft
 1. Backup all catalogs

@@ -2,14 +2,16 @@
 REM Usage: TestPublish.bat org1owner1@fr.ibm.com Passw0rd!
 
 @rem Licensed Materials - Property of IBM
-@rem 
-@rem Copyright IBM Corp. 2017, 2017 All Rights Reserved.
-@rem 
+@rem
+@rem Copyright IBM Corp. 2017, 2019 All Rights Reserved.
+@rem
 @rem US Government Users Restricted Rights - Use, duplication or
 @rem disclosure restricted by GSA ADP Schedule Contract with
 @rem IBM Corp.
 @rem Author: Arnauld Desprets - arnauld_desprets@fr.ibm.com
 @rem Version: 1.0 - June 2017
+@rem Version: 2.0 - June 2019
+@rem Add draft products and API in the list operation
 
 @rem Important: supports only one organisation (well put everything as if it was one organisation)
 @rem Test on Windows 7
@@ -31,12 +33,19 @@ if errorlevel 2 goto apic_backup_drafts
 if errorlevel 1 goto apic_list
 
 :apic_list
-echo List of products and APIs in all catalogs
+echo List of products and APIs in all catalogs and in draft
 echo Login to %APIC_SRV%
 cmd /c apic login -s %APIC_SRV% -u %APIC_LOGIN% -p %APIC_PASSWORD%
 
 echo Getting the names of organizations
 for /F %%i in ('apic organizations -s %APIC_SRV%') do (
+    echo Getting products and API in draft for %%i organization
+    for /F %%k in ('apic drafts -o %%i -s %APIC_SRV% --type product') do (
+      echo Product: %%k
+    )
+    for /F %%k in ('apic drafts -o %%i -s %APIC_SRV% --type api') do (
+      echo API: %%k
+    )
     echo Getting catalogs for %%i organization
 	for /F %%j in ('apic catalogs -o %%i -s %APIC_SRV%') do (
 		if "%SCRIPT_DEBUG%"=="1" echo catalog %%j
@@ -94,4 +103,4 @@ set APIC_PASSWORD=Passw0rd!
 set APIC_SRV=management.fr.ibm
 goto select_actions
 
-:end 
+:end
