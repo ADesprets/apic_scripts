@@ -41,12 +41,12 @@ for /F %%i in ('%APIC_EXE_Full_PATH% orgs:list --my -s %APIC_SRV%') do (
     echo Getting catalogs for %%i organization
 	for /F %%j in ('%APIC_EXE_Full_PATH% catalogs:list -o %%i -s %APIC_SRV%') do (
 		if "%SCRIPT_DEBUG%"=="1" echo catalog %%j
-		for /f "tokens=6 delims=/" %%a in ("%%j") do (
+		for /f %%a in ("%%j") do (
 			echo Getting list of products from %%a catalog
-			for /F %%k in ('%APIC_EXE_Full_PATH% products:list-all -c %%a -o %%i -s %APIC_SRV%') do (
+			for /F %%k in ('%APIC_EXE_Full_PATH% products:list-all -c %%a -o %%i -s %APIC_SRV% --scope catalog') do (
 				echo Product: %%k
 			)
-			for /F %%k in ('%APIC_EXE_Full_PATH% apis:list-all -c %%a -o %%i -s %APIC_SRV%') do (
+			for /F %%k in ('%APIC_EXE_Full_PATH% apis:list-all -c %%a -o %%i -s %APIC_SRV% --scope catalog') do (
 				echo API: %%k
 			)
 		)
@@ -77,11 +77,11 @@ for /F %%i in ('%APIC_EXE_Full_PATH% orgs:list --my -s %APIC_SRV%') do (
     echo Getting catalogs for %%i organization
 	for /F %%j in ('%APIC_EXE_Full_PATH% catalogs:list -o %%i -s %APIC_SRV%') do (
 		@rem if "%SCRIPT_DEBUG%"=="1" echo catalog %%j
-		for /f "tokens=6 delims=/" %%a in ("%%j") do (
+		for /F  %%a in ("%%j") do (
 			if not exist "%%a" mkdir %%a
 			pushd %%a
 			echo Extracting products from %%a catalog
-			cmd /c %APIC_EXE_Full_PATH% products:clone -c %%a -o %%i -s %APIC_SRV%
+			cmd /c %APIC_EXE_Full_PATH% products:clone -c %%a -o %%i -s %APIC_SRV% --scope catalog
 			popd
 		)
 	)
