@@ -21,6 +21,7 @@ set APIC_LOGIN=%1
 set APIC_PASSWORD=%2
 set APIC_SRV=%3
 set APIC_REALM=%4
+set ORG_FOR_DRAFT=%5
 
 set SCRIPT_DEBUG=0
 
@@ -28,7 +29,8 @@ echo %DATE% - %TIME%
 if [%1] == [] goto checkargs
 
 :select_actions
-choice /C abc /M "A) List products, B) Backup draft, C) Backup all catalogs"
+choice /C abcd /M "A) List products, B) Backup draft, C) Backup all catalogs, D) Push drafts from a directory"
+if errorlevel 4 goto apic_push_drafts
 if errorlevel 3 goto apic_backup_catalogs
 if errorlevel 2 goto apic_backup_drafts
 if errorlevel 1 goto apic_list
@@ -69,7 +71,7 @@ echo Login to %APIC_SRV%
 cmd /c %APIC_EXE_Full_PATH% login -s %APIC_SRV% -u %APIC_LOGIN% -p %APIC_PASSWORD% -r %APIC_REALM%
 echo Getting the names of organizations
 for /F %%i in ('%APIC_EXE_Full_PATH% orgs:list --my -s %APIC_SRV%') do (
-    echo Extracts draft products and APIs for %%i organization
+  echo Extracts draft products and APIs for %%i organization
   for /F "delims=" %%j in ('%APIC_EXE_Full_PATH% draft-products:clone -o %%i -s %APIC_SRV%') do (
 		echo %%j
 	)
@@ -97,6 +99,18 @@ for /F %%i in ('%APIC_EXE_Full_PATH% orgs:list --my -s %APIC_SRV%') do (
 )
 goto end
 
+:apic_push_drafts
+echo Push products in draft from a directory
+echo Login to %APIC_SRV%
+cmd /c %APIC_EXE_Full_PATH% login -s %APIC_SRV% -u %APIC_LOGIN% -p %APIC_PASSWORD% -r %APIC_REALM%
+
+for /F %%i in ('findstr /M /B "product: 1.0.0" *.yaml') do (
+	echo Push %%i in draft
+	cmd /c %APIC_EXE_Full_PATH% draft-products:create -o %ORG_FOR_DRAFT% -s %APIC_SRV% %%i
+)
+
+goto end
+
 :checkargs
 REM Set default arguments
 echo Info: set the arguments to the default values because no parameters have been given
@@ -104,6 +118,7 @@ set APIC_LOGIN=<myuser>
 set APIC_PASSWORD=<mypassw0rd>
 set APIC_SRV=<mymanagerendpoint (hostname only)>
 set APIC_REALM=provider/default-idp-2
+set ORG_FOR_DRAFT=org1
 goto select_actions
 
 :end
