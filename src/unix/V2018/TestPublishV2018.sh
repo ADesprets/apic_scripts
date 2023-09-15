@@ -4,7 +4,7 @@
 APIC_LOGIN=org1owner
 APIC_PASSWORD=Passw0rd!
 APIC_REALM=provider/default-idp-2
-APIC_SRV=manager.159.8.70.34.xip.io
+APIC_SRV=<server>
 APIC_EXE_Full_PATH=/home/desprets/test_scripts/apic2018.sh
 
 IFS=$'\n'

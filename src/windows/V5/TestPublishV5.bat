@@ -98,9 +98,9 @@ goto end
 :checkargs
 REM Set default arguments
 echo Info: set the arguments to the default values because no parameters have been given
-set APIC_LOGIN=org1owner1@fr.ibm.com
-set APIC_PASSWORD=Passw0rd!
-set APIC_SRV=management.fr.ibm
+set APIC_LOGIN=<user>
+set APIC_PASSWORD=<password>
+set APIC_SRV=<server>
 goto select_actions
 
 :end

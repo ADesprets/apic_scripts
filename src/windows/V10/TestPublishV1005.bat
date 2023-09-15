@@ -1,5 +1,5 @@
 @echo off
-REM Usage: TestPublish.bat org1owner1@fr.ibm.com Passw0rd! manager.159.8.70.34.xip.io provider/default-idp-2
+REM Usage: TestPublishV1005.bat org1owner1@fr.ibm.com Passw0rd! manager.159.8.70.34.xip.io provider/default-idp-2
 
 @rem Licensed Materials - Property of IBM
 @rem
@@ -16,7 +16,7 @@ REM Usage: TestPublish.bat org1owner1@fr.ibm.com Passw0rd! manager.159.8.70.34.x
 @rem Important: supports only one organisation (we will put everything as if it was one organisation)
 @rem Tested on Windows 10
 
-set APIC_EXE_Full_PATH=C:\IBM\APIM\2018\toolkit\apic.exe
+set APIC_EXE_Full_PATH=C:\IBM\apim\V10.0.5\apic.exe
 set APIC_LOGIN=%1
 set APIC_PASSWORD=%2
 set APIC_SRV=%3
@@ -72,7 +72,10 @@ cmd /c %APIC_EXE_Full_PATH% login -s %APIC_SRV% -u %APIC_LOGIN% -p %APIC_PASSWOR
 echo Getting the names of organizations
 for /F %%i in ('%APIC_EXE_Full_PATH% orgs:list --my -s %APIC_SRV%') do (
   echo Extracts draft products and APIs for %%i organization
-  for /F "delims=" %%j in ('%APIC_EXE_Full_PATH% draft-products:clone -o %%i -s %APIC_SRV%') do (
+  for /F "delims=" %%j in ('%APIC_EXE_Full_PATH% draft-products:clone -o %%i -s %APIC_SRV% --format json') do (
+		echo %%j
+	)
+  for /F "delims=" %%j in ('%APIC_EXE_Full_PATH% draft-apis:clone -o %%i -s %APIC_SRV% --format json') do (
 		echo %%j
 	)
 )
@@ -114,8 +117,8 @@ goto end
 :checkargs
 REM Set default arguments
 echo Info: set the arguments to the default values because no parameters have been given
-set APIC_LOGIN=<myuser>
-set APIC_PASSWORD=<mypassw0rd>
+set APIC_LOGIN=<user>
+set APIC_PASSWORD=<password>
 set APIC_SRV=<mymanagerendpoint (hostname only)>
 set APIC_REALM=provider/default-idp-2
 set ORG_FOR_DRAFT=org1
